@@ -6,62 +6,92 @@ import { removeFromCart } from "../redux/dataSlice";
 const Cart = () => {
   const cartData = useSelector((state) => state.dataSlice.cartArr);
   const dispatch = useDispatch();
+  let sum = cartData.reduce((acc, el) => {
+    return acc + Number(el.price) * Number(el.count);
+  }, 0);
 
   return (
-    <GridWrapper>
-      {cartData?.map((el) => {
-        return (
-          <CardWrapper key={el.id}>
-            <div style={{ height: "60%" }}>
-              <img
-                src={el.image}
-                style={{ width: 160, height: 160, objectFit: "contain" }}
-                alt="..."
-              />
-              <div
-                style={{
-                  width: "90%",
-                  justifyContent: "center",
-                  margin: "auto",
-                }}
-              >
-                {el.title}
+    <>
+      <h3 style={{ padding: 10, color: "brown" }}>
+        Total Price: Rs.{sum?.toFixed(2)}
+      </h3>
+      <GridWrapper>
+        {cartData?.map((el) => {
+          return (
+            <CardWrapper key={el.id}>
+              <div style={{ minHeight: "50%" }}>
+                <img
+                  src={el.image}
+                  style={{ width: 160, height: 160, objectFit: "contain" }}
+                  alt="..."
+                />
+                <div
+                  style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    margin: "auto",
+                  }}
+                >
+                  {el.title}
+                </div>
               </div>
-            </div>
-            <div style={{ fontWeight: "bold", margin: 15 }}>Rs.{el.price}</div>
+              <div style={{ minHeight: "15%", margin: 10 }}>
+                <div style={{ fontWeight: "bold", margin: 10 }}>
+                  Rs.{Number(el.price) * Number(el.count)}
+                </div>
+                <div style={{ fontWeight: "bold" }}>
+                  Quantity: {el.count} Pcs
+                </div>
+              </div>
 
-            <div style={{ height: "20%" }}>
-              <button
-                style={{
-                  height: "40px",
-                  width: "80%",
-                  background: "red",
-                  borderRadius: "5px",
-                  border: "none",
-                  margin: 20,
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => dispatch(removeFromCart(el))}
-              >
-                Remove from Cart
-              </button>
-            </div>
-          </CardWrapper>
-        );
-      })}
-    </GridWrapper>
+              <div style={{ minHeight: "20%" }}>
+                <button
+                  style={{
+                    height: "40px",
+                    width: "80%",
+                    background: "red",
+                    borderRadius: "5px",
+                    border: "none",
+                    margin: 10,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => dispatch(removeFromCart(el))}
+                >
+                  Remove From Cart
+                </button>
+                <button
+                  style={{
+                    height: "40px",
+                    width: "80%",
+                    background: "lightgreen",
+                    borderRadius: "5px",
+                    border: "none",
+                    cursor: "pointer",
+                    margin: 10,
+                  }}
+                >
+                  Buy Now
+                </button>
+              </div>
+            </CardWrapper>
+          );
+        })}
+      </GridWrapper>
+    </>
   );
 };
 
 export default Cart;
 
 const CardWrapper = styled.div`
-  height: auto;
-  width: 250px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  height: 500px;
+  width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
   text-align: center;
+  line-height: 20px;
+  border-radius: 10px;
 `;
 const GridWrapper = styled.div`
   display: grid;
