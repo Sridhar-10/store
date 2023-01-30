@@ -5,7 +5,6 @@ const store = configureStore({
   reducer: {
     dataSlice: dataSlice,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default store;

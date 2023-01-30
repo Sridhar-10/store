@@ -5,7 +5,6 @@ import { removeFromCart } from "../redux/dataSlice";
 
 const Cart = () => {
   const cartData = useSelector((state) => state.dataSlice.cartArr);
-  console.log(cartData);
   const dispatch = useDispatch();
 
   return (
@@ -17,6 +16,7 @@ const Cart = () => {
               <img
                 src={el.image}
                 style={{ width: 160, height: 160, objectFit: "contain" }}
+                alt="..."
               />
               <div
                 style={{
@@ -36,7 +36,6 @@ const Cart = () => {
                   height: "40px",
                   width: "80%",
                   background: "red",
-                  color: "black",
                   borderRadius: "5px",
                   border: "none",
                   margin: 20,
@@ -65,9 +64,11 @@ const CardWrapper = styled.div`
   text-align: center;
 `;
 const GridWrapper = styled.div`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
   justify-content: center;
   grid-gap: 20px;
+  width: 80%;
+  margin: auto;
+  align-items: center;
 `;
