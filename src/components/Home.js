@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getDataApi } from "../redux/dataSlice";
 import { useNavigate } from "react-router-dom";
+import Sort from "./Sort";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -13,16 +14,17 @@ const Home = () => {
   const [empty, setEmpty] = useState(false);
   const navigation = useNavigate();
 
+  const getData = async () => {
+    try {
+      const data = await axios.get("https://fakestoreapi.com/products");
+      console.log(data);
+      dispatch(getDataApi(data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await axios.get("https://fakestoreapi.com/products");
-        console.log(data);
-        dispatch(getDataApi(data.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getData();
   }, []);
 
@@ -35,7 +37,6 @@ const Home = () => {
   }
   const productSearch = debounce((query) => {
     if (query) {
-      console.log("called 1");
       let filterdata = datas.filter((el) =>
         el.title.toLowerCase().includes(query.toLowerCase())
       );
@@ -74,10 +75,20 @@ const Home = () => {
           marginBottom: 25,
         }}
       />
+      <SortWrapper>
+        <Sort
+          onChange={(data) => {
+            setProd(data);
+          }}
+        />
+      </SortWrapper>
       <div
         style={{
           width: "100%",
           height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          margin: "auto",
         }}
       >
         {!isLoading ? (
@@ -182,4 +193,14 @@ const EmptyWrapper = styled.div`
   width: 100%;
   text-align: center;
   height: 100vh;
+`;
+
+const SortWrapper = styled.div`
+  width: 80%;
+  height: 100px;
+  margin: 30px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  padding: 20px;
 `;
