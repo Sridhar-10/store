@@ -18,28 +18,21 @@ let arr = [
 function modify() {
   let modified = [];
   arr.map((el) => {
-    if (modified.length === 0) {
+    const exist =
+      modified.length !== 0 &&
+      modified.some((data) => {
+        return data.type === el.type;
+      });
+    const number = modified.findIndex((e) => {
+      return e.type === el.type;
+    });
+    if (exist) {
+      modified[number].name = [...modified[number].name, el.name];
+    } else {
       modified.push({
         type: el.type,
         name: [el.name],
       });
-    } else {
-      const exist =
-        modified.length !== 0 &&
-        modified.some((data) => {
-          return data.type === el.type;
-        });
-      if (exist) {
-        let number = modified.findIndex((e) => {
-          return e.type === el.type;
-        });
-        modified[number].name = [...modified[number].name, el.name];
-      } else {
-        modified.push({
-          type: el.type,
-          name: [el.name],
-        });
-      }
     }
   });
   console.log(modified);
